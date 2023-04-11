@@ -2,7 +2,7 @@ import React from "react";
 import BigButton from "../components/BigButton";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
-import { chinese, japaneseKorean, middleEastern, southEastAsian } from "../store/actions/Actions";
+import { chinese, japaneseKorean, indian, southEastAsian } from "../store/actions/Actions";
 
 const Asian: React.FC = () => {
   const navigate = useNavigate();
@@ -19,8 +19,8 @@ const Asian: React.FC = () => {
     dispatch(southEastAsian());
     navigate("/restaurant-suggestion");
   };
-  const handleMiddleEasternClick = () => {
-    dispatch(middleEastern());
+  const handleIndianClick = () => {
+    dispatch(indian());
     navigate("/restaurant-suggestion");
   };
   return (
@@ -64,12 +64,12 @@ const Asian: React.FC = () => {
           </div>
           <div className="app-button-box">
             <BigButton
-              onClick={handleMiddleEasternClick}
+              onClick={handleIndianClick}
               backgroundColor="#4caf50"
               width="10rem"
               height="10rem"
             >
-              Middle Eastern
+              Indian
             </BigButton>
           </div>
         </div>

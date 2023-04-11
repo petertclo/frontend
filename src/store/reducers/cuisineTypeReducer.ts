@@ -1,12 +1,16 @@
 export const CHINESE = "CHINESE";
 export const JAPANESE_KOREAN = "JAPANESE_KOREAN";
 export const SOUTH_EAST_ASIAN = "SOUTH_EAST_ASIAN";
-export const MIDDLE_EASTERN = "MIDDLE_EASTERN";
+export const INDIAN = "MIDDLE_EASTERN";
 
 // Define the initial state
-const initialState = {
-  choice: "",
-  cuisine: "",
+
+interface State {
+  cuisine: string[];
+}
+
+const initialState: State = {
+  cuisine: [],
 };
 
 // Create the reducer function
@@ -16,13 +20,13 @@ export default function cuisineReducer(
 ) {
   switch (action.type) {
     case CHINESE:
-      return { ...state, cuisine: "chinese" };
+      return { ...state, cuisine: ["chinese"] };
     case JAPANESE_KOREAN:
-      return { ...state, cuisine: "japanese-korean" };
+      return { ...state, cuisine: ["japanese", "korean"] };
     case SOUTH_EAST_ASIAN:
-      return { ...state, cuisine: "south-east-asian" };
-    case MIDDLE_EASTERN:
-      return { ...state, cuisine: "middle-eastern" };
+      return { ...state, cuisine: ["vietnamese", "thai", "malaysian", "indonesian", "singaporean"] };
+    case INDIAN:
+      return { ...state, cuisine: ["indian", "pakistani"] };
     default:
       return state;
   }

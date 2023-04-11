@@ -1,4 +1,4 @@
-import { CHINESE, JAPANESE_KOREAN, MIDDLE_EASTERN, SOUTH_EAST_ASIAN } from "../reducers/cuisineTypeReducer";
+import { CHINESE, JAPANESE_KOREAN, INDIAN, SOUTH_EAST_ASIAN } from "../reducers/cuisineTypeReducer";
 import { TRY_SOMETHING_NEW, SOMETHING_FAMILIAR } from "../reducers/familiarOrNewReducer";
 
 
@@ -34,8 +34,8 @@ export const southEastAsian = () => {
   };
 };
 
-export const middleEastern = () => {
+export const indian = () => {
   return {
-    type: MIDDLE_EASTERN,
+    type: INDIAN,
   };
 };
