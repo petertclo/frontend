@@ -1,8 +1,8 @@
 import React from "react";
-import BigButton from "../components/BigButton";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { chinese, japaneseKorean, indian, southEastAsian } from "../store/actions/Actions";
+import BigButton from "../components/BigButton";
+import { chinese, indian, japaneseKorean, southEastAsian } from "../store/actions/Actions";
 
 const Asian: React.FC = () => {
   const navigate = useNavigate();

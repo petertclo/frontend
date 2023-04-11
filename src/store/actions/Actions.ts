@@ -1,5 +1,5 @@
-import { CHINESE, JAPANESE_KOREAN, INDIAN, SOUTH_EAST_ASIAN, EUROPEAN, AUSTRALIAN, AMERICAN, LATIN_AMERICAN } from "../reducers/cuisineTypeReducer";
-import { TRY_SOMETHING_NEW, SOMETHING_FAMILIAR } from "../reducers/familiarOrNewReducer";
+import { AMERICAN, AUSTRALIAN, CHINESE, EUROPEAN, INDIAN, JAPANESE_KOREAN, LATIN_AMERICAN, SOUTH_EAST_ASIAN } from "../reducers/cuisineTypeReducer";
+import { SOMETHING_FAMILIAR, TRY_SOMETHING_NEW } from "../reducers/familiarOrNewReducer";
 
 
 // Action creator for TRY_SOMETHING_NEW

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
-import BigButton from "../components/BigButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
 import { useLoadScript } from "@react-google-maps/api";
-import PhotoGallery from "../components/PhotoGallery";
-import "../styles/RestaurantSuggestion.css";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import BigButton from "../components/BigButton";
 import RestaurantDisplay from "../components/RestaurantDisplay";
-import { shuffleArray } from "../utils/ShuffleArray";
+import { RootState } from "../store/store";
+import "../styles/RestaurantSuggestion.css";
 
 const requiredLibraries: (
   | "places"
@@ -83,8 +81,10 @@ const RestaurantSuggestion: React.FC = () => {
     if (isLoaded && !loadError && placeIds.length > 0) {
       const map = new google.maps.Map(document.createElement("div"));
       const service = new google.maps.places.PlacesService(map);
-
-      placeIds.forEach((placeId) => {
+  
+      const fetchedRestaurants: google.maps.places.PlaceResult[] = [];
+  
+      placeIds.forEach((placeId, index) => {
         service.getDetails(
           {
             placeId,
@@ -92,17 +92,16 @@ const RestaurantSuggestion: React.FC = () => {
           },
           (result, status) => {
             if (status === google.maps.places.PlacesServiceStatus.OK) {
-              setRestaurants((prevRestaurants) => shuffleArray([
-                ...prevRestaurants,
-                result as google.maps.places.PlaceResult,
-              ]));
-              
+              fetchedRestaurants.push(result as google.maps.places.PlaceResult);
+            }
+            if (index === placeIds.length - 1) {
+              setRestaurants(fetchedRestaurants);
             }
           }
         );
       });
     }
-  }, [placeIds, isLoaded, loadError, restaurants.length]);
+  }, [placeIds, isLoaded, loadError]);
 
   const Confirm = () => {
     console.log("Found the right restaurant! TODO: Save this to a database");

@@ -1,8 +1,8 @@
 import React from "react";
-import BigButton from "../components/BigButton";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { european, australian, american, latinAmerican } from "../store/actions/Actions";
+import BigButton from "../components/BigButton";
+import { american, australian, european, latinAmerican } from "../store/actions/Actions";
 
 const Western: React.FC = () => {
   const navigate = useNavigate();

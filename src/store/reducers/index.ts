@@ -1,8 +1,8 @@
 // reducers/index.ts
 
 import { combineReducers } from "redux";
-import familiarOrNewReducer from "./familiarOrNewReducer";
 import cuisineReducer from "./cuisineTypeReducer";
+import familiarOrNewReducer from "./familiarOrNewReducer";
 
 const rootReducer = combineReducers({
   familiarOrNew: familiarOrNewReducer,

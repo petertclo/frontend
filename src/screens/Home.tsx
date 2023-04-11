@@ -1,8 +1,8 @@
 import React from "react";
-import BigButton from "../components/BigButton";
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux'
-import { trySomethingNew, somethingFamiliar } from "../store/actions/Actions";
+import BigButton from "../components/BigButton";
+import { somethingFamiliar, trySomethingNew } from "../store/actions/Actions";
 
 const Home: React.FC = () => {
   

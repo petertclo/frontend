@@ -1,6 +1,6 @@
 import React from "react";
-import BigButton from "../components/BigButton";
 import { useNavigate } from "react-router-dom";
+import BigButton from "../components/BigButton";
 
 const TryNew: React.FC = () => {
     const navigate = useNavigate();
