@@ -8,7 +8,7 @@ const TryNew: React.FC = () => {
         navigate("/asian");
       };
       const handleWesternClick = () => {
-        console.log("Big button clicked");
+        navigate("/western");
       };
   return (
     <div className="app-flexbox">

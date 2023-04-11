@@ -1,4 +1,4 @@
-import { CHINESE, JAPANESE_KOREAN, INDIAN, SOUTH_EAST_ASIAN } from "../reducers/cuisineTypeReducer";
+import { CHINESE, JAPANESE_KOREAN, INDIAN, SOUTH_EAST_ASIAN, EUROPEAN, AUSTRALIAN, AMERICAN, LATIN_AMERICAN } from "../reducers/cuisineTypeReducer";
 import { TRY_SOMETHING_NEW, SOMETHING_FAMILIAR } from "../reducers/familiarOrNewReducer";
 
 
@@ -37,5 +37,26 @@ export const southEastAsian = () => {
 export const indian = () => {
   return {
     type: INDIAN,
+  };
+};
+
+export const european = () => {
+  return {
+    type: EUROPEAN,
+  };
+};
+export const australian = () => {
+  return {
+    type: AUSTRALIAN,
+  };
+};
+export const american = () => {
+  return {
+    type: AMERICAN,
+  };
+};
+export const latinAmerican = () => {
+  return {
+    type: LATIN_AMERICAN,
   };
 };

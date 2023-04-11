@@ -3,5 +3,30 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 1rem; 
+    flex-direction: row;
     flex-grow: 1;
+  }
+
+  .prev,
+  .next {
+    width: 40px;
+    height: 40px;
+    background-image: url('../assets/caret.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    filter: invert(50%);
+    cursor: pointer;
+  }
+  
+  .next {
+    transform: scaleX(-1);
+  }
+
+  .photo-container{
+    width: 20rem;
+    height: 20rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }

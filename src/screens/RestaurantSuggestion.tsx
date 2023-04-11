@@ -2,22 +2,33 @@ import React, { useEffect, useState } from "react";
 import BigButton from "../components/BigButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { GoogleMap, useJsApiLoader, useLoadScript } from '@react-google-maps/api';
+import { useLoadScript } from "@react-google-maps/api";
 import PhotoGallery from "../components/PhotoGallery";
-import "../styles/RestaurantSuggestion.css"
+import "../styles/RestaurantSuggestion.css";
+import RestaurantDisplay from "../components/RestaurantDisplay";
+import { shuffleArray } from "../utils/ShuffleArray";
 
-const requiredLibraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[]= ["places"];
+const requiredLibraries: (
+  | "places"
+  | "drawing"
+  | "geometry"
+  | "localContext"
+  | "visualization"
+)[] = ["places"];
 
 const RestaurantSuggestion: React.FC = () => {
   const cuisines = useSelector((state: RootState) => state.cuisine.cuisine);
-  const [restaurants, setRestaurants] = useState<google.maps.places.PlaceResult[]>([]);
+  const [placeIds, setPlaceIds] = useState<string[]>([]);
+  const [restaurants, setRestaurants] = useState<
+    google.maps.places.PlaceResult[]
+  >([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
     null
   );
 
   const GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-  
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: GOOGLE_MAPS_API_KEY!,
     libraries: requiredLibraries,
@@ -37,44 +48,69 @@ const RestaurantSuggestion: React.FC = () => {
     );
   }, []);
 
-
-      useEffect(() => {
-        if (isLoaded && !loadError && cuisines && location) {
-          const map = new google.maps.Map(document.createElement("div"));
-          const service = new google.maps.places.PlacesService(map);
-          cuisines.forEach((cuisine: string) => {
-            service.nearbySearch(
-              {
-                location,
-                radius: 5000,
-                type: "restaurant",
-                keyword: cuisine,
-              },
-              (results, status) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                  if (results !== null) {
-                    setRestaurants((prevRestaurants) => [
-                      ...prevRestaurants,
-                      ...results,
-                    ]);
-                  }
-                }
+  useEffect(() => {
+    if (isLoaded && !loadError && cuisines && location) {
+      const map = new google.maps.Map(document.createElement("div"));
+      const service = new google.maps.places.PlacesService(map);
+      cuisines.forEach((cuisine: string) => {
+        service.nearbySearch(
+          {
+            location,
+            radius: 1000,
+            type: "restaurant",
+            keyword: cuisine,
+          },
+          (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              if (results !== null) {
+                setPlaceIds((prevPlaceIds) => [
+                  ...prevPlaceIds,
+                  ...results
+                    .map((result) => result.place_id)
+                    .filter(
+                      (placeId): placeId is string => placeId !== undefined
+                    ),
+                ]);
               }
-            );
-          });
-        } 
-
+            }
+          }
+        );
+      });
+    }
   }, [cuisines, location, isLoaded, loadError]);
+
+  useEffect(() => {
+    if (isLoaded && !loadError && placeIds.length > 0) {
+      const map = new google.maps.Map(document.createElement("div"));
+      const service = new google.maps.places.PlacesService(map);
+
+      placeIds.forEach((placeId) => {
+        service.getDetails(
+          {
+            placeId,
+            fields: ["name", "vicinity", "rating", "photos", "place_id"],
+          },
+          (result, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              setRestaurants((prevRestaurants) => shuffleArray([
+                ...prevRestaurants,
+                result as google.maps.places.PlaceResult,
+              ]));
+              
+            }
+          }
+        );
+      });
+    }
+  }, [placeIds, isLoaded, loadError, restaurants.length]);
 
   const Confirm = () => {
     console.log("Found the right restaurant! TODO: Save this to a database");
     //TODO: Save the choice to the database
   };
   const ShowNext = () => {
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % restaurants.length);
   };
-
-  
 
   return (
     <div className="app-flexbox">
@@ -83,17 +119,9 @@ const RestaurantSuggestion: React.FC = () => {
           <p>Does this sound good?</p>
         </div>
         <div className="restaurant-details">
-          <p>Cuisine: {cuisines.join(", ")}</p>
           {restaurants.length === 0 && <p>No restaurant was found.</p>}
           {restaurants[currentIndex] && (
-            <div>
-            {restaurants[currentIndex]?.photos?.[0] && (
-                <PhotoGallery photos={restaurants[currentIndex].photos || []} />
-              )}
-            <p>{restaurants[currentIndex].name}</p>
-            <p>{restaurants[currentIndex].vicinity}</p>
-            <p>Rating: {restaurants[currentIndex].rating}</p>
-          </div>
+            <RestaurantDisplay restaurant={restaurants[currentIndex]}></RestaurantDisplay>
           )}
         </div>
         <div className="app-buttons-box">
